@@ -1,13 +1,14 @@
 name: Sync Template Changes
-
 on:
   schedule:
-    - cron: '0 0 * * 0'  # Weekly on Sundays
-  workflow_dispatch:  # Manual trigger
-
+    - cron: '0 0 * * 0' # Weekly on Sundays
+  workflow_dispatch: # Manual trigger
 jobs:
   sync:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
     steps:
       - uses: actions/checkout@v4
       - name: Template Sync
