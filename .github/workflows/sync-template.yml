@@ -1,7 +1,7 @@
 name: Sync Template Changes
 on:
   schedule:
-    - cron: '0 0 * * 0' # Weekly on Sundays 
+    - cron: '0 0 * * 0' # Weekly on Sundays
   workflow_dispatch: # Manual trigger
 jobs:
   sync:
@@ -9,14 +9,14 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
-      workflows: write  # Allows workflow updates
+      workflows: write # Allows workflow updates
     steps:
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.TEMPLATE_SYNC_PAT }}
           persist-credentials: false
       - name: Template Sync
-        uses: AndreasAugustin/actions-template-sync@v1  # Or upgrade to @v2
+        uses: AndreasAugustin/actions-template-sync@v1
         with:
           github_token: ${{ secrets.TEMPLATE_SYNC_PAT }}
           source_repo_path: rainwilds/Sandbox
