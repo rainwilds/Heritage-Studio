@@ -9,11 +9,15 @@ jobs:
     permissions:
       contents: write
       pull-requests: write
+      workflows: write  # Allows workflow updates
     steps:
       - uses: actions/checkout@v4
-      - name: Template Sync
-        uses: AndreasAugustin/actions-template-sync@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.TEMPLATE_SYNC_PAT }}
+          persist-credentials: false
+      - name: Template Sync
+        uses: AndreasAugustin/actions-template-sync@v1  # Or upgrade to @v2
+        with:
+          github_token: ${{ secrets.TEMPLATE_SYNC_PAT }}
           source_repo_path: rainwilds/Sandbox
           upstream_branch: main
