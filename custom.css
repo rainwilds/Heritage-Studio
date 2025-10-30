@@ -23,16 +23,44 @@
 }
 
 :root {
-        --font-1-family: p22_cezanne_pro_regular-webfont,
-            Arial,
-            sans-serif;
+    --font-1-family: p22_cezanne_pro_regular-webfont,
+        Arial,
+        sans-serif;
 
-        --font-2-family: blackbeard_regular-webfont,
-            sans-serif,
-            Arial;
+    --font-2-family: blackbeard_regular-webfont,
+        sans-serif,
+        Arial;
 
-        --font-3-family: carol_gothic_regular-webfont,
-            Arial,
-            sans-serif;  
+    --font-3-family: carol_gothic_regular-webfont,
+        Arial,
+        sans-serif;
+
+
+    --font-2-size-small: 21px;
+    --font-2-size-medium: 27px;
+    --font-2-size-large: 33px;
+
+    h1 {
+        font-size: 3rem;
+    }
+
+    h2 {
+        font-size: 2rem;
+    }
+
+    h3 {
+        font-size: 1.7rem;
+    }
+
+    h4 {
+        font-size: 1.7rem;
+    }
+
+    h5 {
+        font-size: 1.5rem;
+    }
+
+    h6 {
+        font-size: 1.5rem;
+    }
 }
-
