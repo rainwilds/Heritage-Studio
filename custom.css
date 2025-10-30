@@ -8,7 +8,7 @@
 
 @font-face {
     font-family: 'blackbeard_regular-webfont';
-    src: url('./fonts/blackbeard_regular-webfont') format('woff2');
+    src: url('./fonts/blackbeard_regular-webfont.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
