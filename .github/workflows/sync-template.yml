@@ -9,18 +9,13 @@ jobs:
         with:
           ref: main # Specify the target branch explicitly
       - name: Template Sync
-        uses: AndreasAugustin/actions-template-sync@v2 # Updated to valid v2 tag
+        uses: AndreasAugustin/actions-template-sync@v2 # Stable v2 tag
         with:
-          github_token: ${{ secrets.TOKEN_1 }}
+          source_gh_token: ${{ secrets.TOKEN_1 }} # Updated from github_token
           source_repo_path: rainwilds/Sandbox
           upstream_branch: main
-          target_branch: main # Explicitly set the target branch
-          pr_branch: template-sync # Branch for pull requests (optional)
-          create_pr: true # Create a PR instead of direct commits (recommended)
-          pr_labels: 'template-sync, automated' # Labels for the PR
-          files_to_ignore: |
-            _config.yml
-            README.md
-            .github/**
-            sync-template.yml # Exclude the workflow file
-          commit_message_template: 'chore: sync template changes from {source_repo}@{source_branch}'
+          pr_branch_name_prefix: template-sync # Prefix for PR branch (replaces pr_branch)
+          pr_title: 'chore: Sync template changes from rainwilds/Sandbox' # Title for the PR
+          pr_labels: 'template-sync,automated' # Labels for the PR
+          template_sync_ignore_file_path: .github/template-sync-ignore # Path to ignore file
+          pr_commit_msg: 'chore: sync template changes from {source_repo}@{source_branch}' # Commit message
