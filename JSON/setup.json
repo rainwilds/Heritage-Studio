@@ -1,17 +1,23 @@
 {
   "fonts": [
     {
-      "href": "./fonts/Futura_PT_Demi.woff2",
+      "href": "./fonts/blackbeard_regular-webfont.woff2",
       "as": "font",
       "type": "font/woff2",
       "crossorigin": "anonymous"
     },
     {
-      "href": "./fonts/futura_pt_book.woff2",
+      "href": "./fonts/carol_gothic_regular-webfont.woff2",
       "as": "font",
       "type": "font/woff2",
       "crossorigin": "anonymous"
-    }
+    },
+    {
+      "href": "./fonts/p22_cezanne_pro_regular-webfont.woff2",
+      "as": "font",
+      "type": "font/woff2",
+      "crossorigin": "anonymous"
+    }    
   ],
   "general": {
     "basePath": "/Heritage-Studio/",
