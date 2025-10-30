@@ -16,7 +16,7 @@
 
 @font-face {
     font-family: 'carol_gothic_regular-webfont';
-    src: url('./fonts/carol_gothic_regular-webfont') format('woff2');
+    src: url('./fonts/carol_gothic_regular-webfont.woff2') format('woff2');
     font-weight: normal;
     font-style: normal;
     font-display: swap;
