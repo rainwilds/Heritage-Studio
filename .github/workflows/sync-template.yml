@@ -13,7 +13,7 @@ jobs:
       - name: Template Sync
         uses: AndreasAugustin/actions-template-sync@v2
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.TKN1 }}
           source_repo_path: "rainwilds/Sandbox"  # Replace with the template repo, e.g., "github/docs"
           upstream_branch: "main"  # Replace with the template's branch if not "main"
           pr_title: "Sync updates from template"
