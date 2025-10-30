@@ -1,18 +1,26 @@
 name: Sync Template Changes
-
 on:
-  schedule:
-    - cron: '0 0 * * 0'  # Weekly on Sundays
-  workflow_dispatch:  # Manual trigger
-
+  workflow_dispatch: # Manual trigger only
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main # Specify the target branch explicitly
       - name: Template Sync
-        uses: AndreasAugustin/actions-template-sync@v1
+        uses: AndreasAugustin/actions-template-sync@v1.2.3 # Pin to a specific version
         with:
           github_token: ${{ secrets.TOKEN_1 }}
           source_repo_path: rainwilds/Sandbox
           upstream_branch: main
+          target_branch: main # Explicitly set the target branch
+          pr_branch: template-sync # Branch for pull requests (optional)
+          create_pr: true # Create a PR instead of direct commits (recommended)
+          pr_labels: 'template-sync, automated' # Labels for the PR
+          files_to_ignore: |
+            _config.yml
+            README.md
+            .github/**
+            sync-template.yml # Exclude the workflow file
+          commit_message_template: 'chore: sync template changes from {source_repo}@{source_branch}'
