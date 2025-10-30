@@ -1,22 +1,20 @@
-name: Sync Template Changes
+name: Sync with template
+
 on:
-  workflow_dispatch: # Manual trigger only
+  schedule:
+    - cron: "0 0 * * 1"  # Runs every Monday at midnight UTC; adjust as needed
+  workflow_dispatch:  # Allows manual triggering via the Actions tab
+
 jobs:
   sync:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: main # Specify the target branch explicitly
       - name: Template Sync
         uses: AndreasAugustin/actions-template-sync@v2
         with:
-          source_gh_token: ${{ secrets.TOKEN_1 }} # Token for source repo (rainwilds/Sandbox)
-          target_gh_token: ${{ secrets.TOKEN_1 }} # Token for target repo (rainwilds/Heritage-Studio)
-          source_repo_path: rainwilds/Sandbox
-          upstream_branch: main
-          pr_branch_name_prefix: template-sync
-          pr_title: 'chore: Sync template changes from rainwilds/Sandbox'
-          pr_labels: 'template-sync,automated'
-          template_sync_ignore_file_path: .github/template-sync-ignore
-          pr_commit_msg: 'chore: sync template changes from {source_repo}@{source_branch}'
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          source_repo_path: "rainwilds/Sandbox"  # Replace with the template repo, e.g., "github/docs"
+          upstream_branch: "main"  # Replace with the template's branch if not "main"
+          pr_title: "Sync updates from template"
+          pr_labels: "sync, automated"
