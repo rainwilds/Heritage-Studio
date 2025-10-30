@@ -1,13 +1,37 @@
+@font-face {
+    font-family: 'p22_cezanne_pro_regular-webfont';
+    src: url('fonts/p22_cezanne_pro_regular-webfont.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'blackbeard_regular-webfont';
+    src: url('./fonts/blackbeard_regular-webfont') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'carol_gothic_regular-webfont';
+    src: url('./fonts/carol_gothic_regular-webfont') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 :root {
-        --font-1-family: p22_cezanne_pro_regular-webfont.woff2,
+        --font-1-family: p22_cezanne_pro_regular-webfont,
             Arial,
             sans-serif;
 
-        --font-2-family: blackbeard_regular-webfont.woff2,
+        --font-2-family: blackbeard_regular-webfont,
             sans-serif,
             Arial;
 
-        --font-3-family: carol_gothic_regular-webfont.woff2,
+        --font-3-family: carol_gothic_regular-webfont,
             Arial,
             sans-serif;  
 }
