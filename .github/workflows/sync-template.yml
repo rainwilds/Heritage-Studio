@@ -9,7 +9,7 @@ jobs:
         with:
           ref: main # Specify the target branch explicitly
       - name: Template Sync
-        uses: AndreasAugustin/actions-template-sync@v1.2.3 # Pin to a specific version
+        uses: AndreasAugustin/actions-template-sync@v2 # Updated to valid v2 tag
         with:
           github_token: ${{ secrets.TOKEN_1 }}
           source_repo_path: rainwilds/Sandbox
