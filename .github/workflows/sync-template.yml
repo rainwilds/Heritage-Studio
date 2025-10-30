@@ -13,6 +13,6 @@ jobs:
       - name: Template Sync
         uses: AndreasAugustin/actions-template-sync@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.SYNC_TOKEN_2 }}
           source_repo_path: rainwilds/Sandbox
           upstream_branch: main
