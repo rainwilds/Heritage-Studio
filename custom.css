@@ -74,27 +74,32 @@
         font-family: var(--font-3-family);
     }
 
-    h1.secondary {
-        font-size: 3rem;
-    }
 
-    h2.secondary {
-        font-size: 2rem;
-    }
+    --color-light-scale-1: #a75d04;
+    --color-light-scale-2: #b36a1b;
+    --color-light-scale-3: #be772c;
+    --color-light-scale-4: #c9843c;
+    --color-light-scale-5: #d5924b;
+    --color-light-scale-6: #e09f5b;
+    --color-dark-scale-1: #6c693c;
+    --color-dark-scale-2: #61542e;
+    --color-dark-scale-3: #554022;
+    --color-dark-scale-4: #462d19;
+    --color-dark-scale-5: #361c10;
+    --color-dark-scale-6: #260b00;
+    --color-accent-opaque-light-scale-1: rgba(167, 93, 4, 0.2);
+    --color-accent-opaque-light-scale-2: rgba(179, 106, 27, 0.2);
+    --color-accent-opaque-light-scale-3: rgba(190, 119, 44, 0.2);
+    --color-accent-opaque-light-scale-4: rgba(201, 132, 60, 0.2);
+    --color-accent-opaque-light-scale-5: rgba(213, 146, 75, 0.2);
+    --color-accent-opaque-light-scale-6: rgba(224, 159, 91, 0.2);
+    --color-accent-opaque-dark-scale-1: rgba(108, 105, 60, 0.5);
+    --color-accent-opaque-dark-scale-2: rgba(97, 84, 46, 0.5);
+    --color-accent-opaque-dark-scale-3: rgba(85, 64, 34, 0.5);
+    --color-accent-opaque-dark-scale-4: rgba(70, 45, 25, 0.5);
+    --color-accent-opaque-dark-scale-5: rgba(54, 28, 16, 0.5);
+    --color-accent-opaque-dark-scale-6: rgba(38, 11, 0, 0.5);
+    --color-static-light: white;
+    --color-static-dark: black;
 
-    h3.secondary {
-        font-size: 1.7rem;
-    }
-
-    h4.secondary {
-        font-size: 1.7rem;
-    }
-
-    h5.secondary {
-        font-size: 1.5rem;
-    }
-
-    h6.secondary {
-        font-size: 1.5rem;
-    }
 }
