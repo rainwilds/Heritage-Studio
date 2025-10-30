@@ -14,18 +14,18 @@
     }
   ],
   "general": {
-    "basePath": "/Sandbox/",
-    "author": "David Dufourq",
+    "basePath": "/Heritage-Studio/",
+    "author": "Marie-Ellen Schmidt",
     "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
     "og": {
       "locale": "en_AU",
-      "site_name": "Behive",
+      "site_name": "Heritage Studio",
       "type": "website",
-      "image": "https://rainwilds.github.io/img/logo.jpg"
+      "image": "https://rainwilds.github.io/img/logo/heritage-studio-logo-full-light.svg"
     },
     "x": {
       "card": "summary_large_image",
-      "domain": "rainwilds.github.io",
+      "domain": "heritagestudio.co",
       "site": "@behive"
     },
     "include_e_commerce": true,
