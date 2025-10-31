@@ -1,37 +1,31 @@
 {
   "fonts": [
     {
-      "href": "./fonts/blackbeard_regular-webfont.woff2",
+      "href": "./fonts/Futura_PT_Demi.woff2",
       "as": "font",
       "type": "font/woff2",
       "crossorigin": "anonymous"
     },
     {
-      "href": "./fonts/carol_gothic_regular-webfont.woff2",
+      "href": "./fonts/futura_pt_book.woff2",
       "as": "font",
       "type": "font/woff2",
       "crossorigin": "anonymous"
-    },
-    {
-      "href": "./fonts/p22_cezanne_pro_regular-webfont.woff2",
-      "as": "font",
-      "type": "font/woff2",
-      "crossorigin": "anonymous"
-    }    
+    }
   ],
   "general": {
-    "basePath": "/Heritage-Studio/",
-    "author": "Marie-Ellen Schmidt",
+    "basePath": "/Sandbox/",
+    "author": "David Dufourq",
     "robots": "index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1",
     "og": {
       "locale": "en_AU",
-      "site_name": "Heritage Studio",
+      "site_name": "Behive",
       "type": "website",
-      "image": "https://rainwilds.github.io/img/logo/heritage-studio-logo-full-light.svg"
+      "image": "https://rainwilds.github.io/img/logo.jpg"
     },
     "x": {
       "card": "summary_large_image",
-      "domain": "heritagestudio.co",
+      "domain": "rainwilds.github.io",
       "site": "@behive"
     },
     "include_e_commerce": true,
@@ -44,19 +38,41 @@
       {
         "rel": "icon",
         "type": "image/png",
+        "sizes": "16x16",
+        "href": "./img/icons/favicon-16x16.png"
+      },
+      {
+        "rel": "icon",
+        "type": "image/png",
         "sizes": "32x32",
         "href": "./img/icons/favicon-32x32.png"
       },
       {
         "rel": "icon",
         "type": "image/png",
-        "sizes": "16x16",
-        "href": "./img/icons/favicon-16x16.png"
+        "sizes": "48x48",
+        "href": "./img/icons/favicon.ico" 
+      },
+      {
+        "rel": "icon",
+        "type": "image/png",
+        "sizes": "192x192",
+        "href": "./img/icons/android-chrome-192x192.png"
+      },
+      {
+        "rel": "icon",
+        "type": "image/png",
+        "sizes": "512x512",
+        "href": "./img/icons/android-chrome-512x512.png"
       },
       {
         "rel": "icon",
         "type": "image/x-icon",
         "href": "./img/icons/favicon.ico"
+      },
+      {
+        "rel": "manifest",
+        "href": "./site.webmanifest"
       }
     ],
     "snipcart": {
@@ -117,7 +133,7 @@
     {
       "text": "Blog",
       "href": "/blog"
-    },    
+    },
     {
       "text": "Contact",
       "href": "/contact"
