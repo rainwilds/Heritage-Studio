@@ -1,5 +1,6 @@
 .templatesyncignore
 .github/workflows/
+index.html
 img/primary/tourism-*
 img/responsive/tourism-*
 JSON/setup.json
