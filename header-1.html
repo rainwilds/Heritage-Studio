@@ -49,13 +49,19 @@
 
             <custom-slider
                 
-                draggable
+            draggable
+               autoplay="continuous 30"
+              
                 infinite-scrolling
-                autoplay="continuous 100px/s"
                 
-                gap="var(--space-tiny)"
-
-                slides-per-view="4" 
+              
+                
+                
+                slides-per-view-mobile="1"
+                slides-per-view-tablet="2"
+                slides-per-view-laptop="3"
+                slides-per-view-desktop="4"
+                slides-per-view-large="5"
  
                 pagination
                 pagination-icon-active='<i class="fa-utility-fill fa-semibold fa-circle"></i>'
@@ -80,7 +86,6 @@
                     inner-class="padding-medium"
                 ></custom-block>
                
-                
                 <custom-block 
                     heading="Slide 2" 
                     heading-tag="h2"
@@ -93,7 +98,6 @@
                     inner-class="padding-medium"
                 ></custom-block>
 
-
                 <custom-block 
                     heading="Slide 3" 
                     heading-tag="h2"
@@ -105,7 +109,6 @@
                     inner-alignment="center"
                     inner-class="padding-medium"
                 ></custom-block>   
-                
                 
                 <custom-block 
                     heading="Slide 4" 
@@ -132,7 +135,6 @@
                     inner-class="padding-medium"
                 ></custom-block>
 
-
                 <custom-block 
                     heading="Slide 6" 
                     heading-tag="h2"
@@ -144,7 +146,6 @@
                     inner-alignment="center"
                     inner-class="padding-medium"
                 ></custom-block>   
-                
                 
                 <custom-block 
                     heading="Slide 7" 
@@ -280,7 +281,7 @@
     text-alignment="left"
     inner-alignment="center-left"
     inner-class="padding-medium color-invert"
-    style="width: 500px;">
+    >
 </custom-block>
 
 <!-- Variation 2: Inspirational and Community-Oriented -->
@@ -297,7 +298,7 @@
     text-alignment="left"
     inner-alignment="center-left"
     inner-class="padding-medium color-invert"
-    style="width: 500px;">
+    >
 </custom-block>
 
 <!-- Variation 3: Creative and Artistic -->
@@ -314,7 +315,7 @@
     text-alignment="left"
     inner-alignment="center-left"
     inner-class="padding-medium color-invert"
-    style="width: 500px;">
+    >
 </custom-block>
 
 <!-- Variation 4: Bold and Ambitious -->
@@ -331,7 +332,7 @@
     text-alignment="left"
     inner-alignment="center-left"
     inner-class="padding-medium color-invert"
-    style="width: 500px;">
+    >
 </custom-block>
 
 <!-- Variation 5: Warm and Inviting -->
@@ -348,7 +349,7 @@
     text-alignment="left"
     inner-alignment="center-left"
     inner-class="padding-medium color-invert"
-    style="width: 500px;">
+    >
 </custom-block>
 
 <!-- Variation 6: Dynamic and Energetic -->
@@ -365,7 +366,7 @@
     text-alignment="left"
     inner-alignment="center-left"
     inner-class="padding-medium color-invert"
-    style="width: 500px;">
+    >
 </custom-block>
 
 <!-- Variation 7: Reflective and Purposeful -->
@@ -382,7 +383,7 @@
     text-alignment="left"
     inner-alignment="center-left"
     inner-class="padding-medium color-invert"
-    style="width: 500px;">
+    >
 </custom-block>              
     
             </custom-slider>
@@ -399,16 +400,12 @@
             <custom-slider
 
                 slides-per-view="1" 
-
-                
                 cross-fade
-                                autoplay="5s"
+                autoplay="5s"
 
                 pagination
                 pagination-icon-active='<i class="fa-utility-fill fa-semibold fa-circle"></i>'
                 pagination-icon-inactive='<i class="fa-utility fa-semibold fa-circle"></i>'
-
-
                 >
                 
                 <custom-block 
@@ -508,11 +505,13 @@
 
         </section>
 
-      
+
 
 
     </main>
 
 </body>
 
+
 </html>
+
