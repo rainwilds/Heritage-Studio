@@ -20,4 +20,4 @@ jobs:
           source_repo_path: "rainwilds/Sandbox"  # Replace with the template repo, e.g., "github/docs"
           upstream_branch: "main"  # Replace with the template's branch if not "main"
           pr_title: "Sync updates from template"
-          pr_labels: "sync, automated"
+          pr_labels: "template-sync, automated"
