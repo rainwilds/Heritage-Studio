@@ -1,98 +1,141 @@
-<html lang="en"><head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Draggable Carousel Example</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f0f0;
+        }
 
-  <link rel="preconnect" href="https://kit.fontawesome.com" crossorigin="anonymous">
+        .carousel {
+            overflow: hidden;
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+            user-select: none;
+            touch-action: pan-y; /* Prevents vertical scroll during horizontal drag */
+        }
 
-  <link rel="preload" href="./JSON/setup.json" as="fetch" crossorigin="anonymous">
-  <link rel="preload" href="./styles.css" as="style">
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-out;
+            will-change: transform; /* Hints to browser for hardware acceleration */
+        }
 
-  <script src="js/generators/head-generator.js" type="module"></script>
+        .slide {
+            flex: 0 0 100%;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3em;
+            color: white;
+        }
 
-  <link rel="preload" href="./fonts/blackbeard_regular-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="./fonts/carol_gothic_regular-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="preload" href="./fonts/p22_cezanne_pro_regular-webfont.woff2" as="font" type="font/woff2" crossorigin="anonymous"><link rel="stylesheet" href="./styles.css"><link rel="stylesheet" href="./custom.css"><script src="https://kit.fontawesome.com/85d1e578b1.js" crossorigin="anonymous" async=""></script><style media="all" id="fa-main">@charset "utf-8";.fa-solid,.fa-regular,.fa-brands,.fa-classic,.fas,.far,.fab,.fal,.fat,.fad,.fadr,.fadl,.fadt,.fass,.fasr,.fasl,.fast,.fasds,.fasdr,.fasdl,.fasdt,.faslr,.faslpr,.fawsb,.fatl,.fans,.fands,.faes,.fajr,.fajfr,.fajdr,.facr,.fausb,.faudsb,.faufsb,.fa-solid,.fa-semibold,.fa-regular,.fa-light,.fa-thin,.fa-brands,.fa-classic,.fa-duotone,.fa-sharp,.fa-sharp-duotone,.fa-chisel,.fa-etch,.fa-jelly,.fa-jelly-duo,.fa-jelly-fill,.fa-notdog,.fa-notdog-duo,.fa-slab,.fa-slab-press,.fa-thumbprint,.fa-utility,.fa-utility-duo,.fa-utility-fill,.fa-whiteboard,.fa{--_fa-family:var(--fa-family,var(--fa-style-family,"Font Awesome 7 Pro"));-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;display:var(--fa-display,inline-block);font-family:var(--_fa-family);font-feature-settings:normal;font-style:normal;font-synthesis:none;font-variant:normal;font-weight:var(--fa-style,900);line-height:1;text-align:center;text-rendering:auto;width:var(--fa-width,1.25em)}:is(.fas,.fass,.far,.fasr,.fal,.fasl,.fat,.fast,.fad,.fadr,.fadl,.fadt,.fasds,.fasdr,.fasdl,.fasdt,.fab,.faslr,.faslpr,.fawsb,.fatl,.fans,.fands,.faes,.fajr,.fajfr,.fajdr,.facr,.fausb,.faudsb,.faufsb,.fa-solid,.fa-semibold,.fa-regular,.fa-light,.fa-thin,.fa-brands,.fa-classic,.fa-duotone,.fa-sharp,.fa-sharp-duotone,.fa-chisel,.fa-etch,.fa-jelly,.fa-jelly-duo,.fa-jelly-fill,.fa-notdog,.fa-notdog-duo,.fa-slab,.fa-slab-press,.fa-thumbprint,.fa-utility,.fa-utility-duo,.fa-utility-fill,.fa-whiteboard,.fa):before{content:var(--fa)/""}@supports not (content:""/""){:is(.fas,.fass,.far,.fasr,.fal,.fasl,.fat,.fast,.fad,.fadr,.fadl,.fadt,.fasds,.fasdr,.fasdl,.fasdt,.fab,.faslr,.faslpr,.fawsb,.fatl,.fans,.fands,.faes,.fajr,.fajfr,.fajdr,.facr,.fausb,.faudsb,.faufsb,.fa-solid,.fa-semibold,.fa-regular,.fa-light,.fa-thin,.fa-brands,.fa-classic,.fa-duotone,.fa-sharp,.fa-sharp-duotone,.fa-chisel,.fa-etch,.fa-jelly,.fa-jelly-duo,.fa-jelly-fill,.fa-notdog,.fa-notdog-duo,.fa-slab,.fa-slab-press,.fa-thumbprint,.fa-utility,.fa-utility-duo,.fa-utility-fill,.fa-whiteboard,.fa):before{content:var(--fa)}}:is(.fad,.fa-duotone,.fadr,.fadl,.fadt,.fasds,.fa-sharp-duotone,.fasdr,.fasdl,.fasdt,.fatl,.fa-thumbprint,.fands,.fa-notdog-duo,.fajdr,.fa-jelly-duo,.faudsb,.fa-utility-duo):after{content:var(--fa);font-feature-settings:"ss01"}@supports not (content:""/""){:is(.fad,.fa-duotone,.fadr,.fadl,.fadt,.fasds,.fa-sharp-duotone,.fasdr,.fasdl,.fasdt,.fatl,.fa-thumbprint,.fands,.fa-notdog-duo,.fajdr,.fa-jelly-duo,.faudsb,.fa-utility-duo):after{content:var(--fa)}}.fa-1x{font-size:1em}.fa-2x{font-size:2em}.fa-3x{font-size:3em}.fa-4x{font-size:4em}.fa-5x{font-size:5em}.fa-6x{font-size:6em}.fa-7x{font-size:7em}.fa-8x{font-size:8em}.fa-9x{font-size:9em}.fa-10x{font-size:10em}.fa-2xs{font-size:.625em;line-height:.1em;vertical-align:.225em}.fa-xs{font-size:.75em;line-height:.0833333em;vertical-align:.125em}.fa-sm{font-size:.875em;line-height:.0714286em;vertical-align:.0535715em}.fa-lg{font-size:1.25em;line-height:.05em;vertical-align:-.075em}.fa-xl{font-size:1.5em;line-height:.0416667em;vertical-align:-.125em}.fa-2xl{font-size:2em;line-height:.03125em;vertical-align:-.1875em}.fa-width-auto{--fa-width:auto}.fa-fw,.fa-width-fixed{--fa-width:1.25em}.fa-ul{list-style-type:none;margin-inline-start:var(--fa-li-margin,2.5em);padding-inline-start:0}.fa-ul>li{position:relative}.fa-li{inset-inline-start:calc(-1*var(--fa-li-width,2em));position:absolute;text-align:center;width:var(--fa-li-width,2em);line-height:inherit}.fa-border{border-color:var(--fa-border-color,#eee);border-radius:var(--fa-border-radius,.1em);border-style:var(--fa-border-style,solid);border-width:var(--fa-border-width,.0625em);box-sizing:var(--fa-border-box-sizing,content-box);padding:var(--fa-border-padding,.1875em .25em)}.fa-pull-left,.fa-pull-start{float:inline-start;margin-inline-end:var(--fa-pull-margin,.3em)}.fa-pull-right,.fa-pull-end{float:inline-end;margin-inline-start:var(--fa-pull-margin,.3em)}.fa-beat{animation-name:fa-beat;animation-delay:var(--fa-animation-delay,0s);animation-direction:var(--fa-animation-direction,normal);animation-duration:var(--fa-animation-duration,1s);animation-iteration-count:var(--fa-animation-iteration-count,infinite);animation-timing-function:var(--fa-animation-timing,ease-in-out)}.fa-bounce{animation-name:fa-bounce;animation-delay:var(--fa-animation-delay,0s);animation-direction:var(--fa-animation-direction,normal);animation-duration:var(--fa-animation-duration,1s);animation-iteration-count:var(--fa-animation-iteration-count,infinite);animation-timing-function:var(--fa-animation-timing,cubic-bezier(.28,.84,.42,1))}.fa-fade{animation-name:fa-fade;animation-delay:var(--fa-animation-delay,0s);animation-direction:var(--fa-animation-direction,normal);animation-duration:var(--fa-animation-duration,1s);animation-iteration-count:var(--fa-animation-iteration-count,infinite);animation-timing-function:var(--fa-animation-timing,cubic-bezier(.4,0,.6,1))}.fa-beat-fade{animation-name:fa-beat-fade;animation-delay:var(--fa-animation-delay,0s);animation-direction:var(--fa-animation-direction,normal);animation-duration:var(--fa-animation-duration,1s);animation-iteration-count:var(--fa-animation-iteration-count,infinite);animation-timing-function:var(--fa-animation-timing,cubic-bezier(.4,0,.6,1))}.fa-flip{animation-name:fa-flip;animation-delay:var(--fa-animation-delay,0s);animation-direction:var(--fa-animation-direction,normal);animation-duration:var(--fa-animation-duration,1s);animation-iteration-count:var(--fa-animation-iteration-count,infinite);animation-timing-function:var(--fa-animation-timing,ease-in-out)}.fa-shake{animation-name:fa-shake;animation-delay:var(--fa-animation-delay,0s);animation-direction:var(--fa-animation-direction,normal);animation-duration:var(--fa-animation-duration,1s);animation-iteration-count:var(--fa-animation-iteration-count,infinite);animation-timing-function:var(--fa-animation-timing,linear)}.fa-spin{animation-name:fa-spin;animation-delay:var(--fa-animation-delay,0s);animation-direction:var(--fa-animation-direction,normal);animation-duration:var(--fa-animation-duration,2s);animation-iteration-count:var(--fa-animation-iteration-count,infinite);animation-timing-function:var(--fa-animation-timing,linear)}.fa-spin-reverse{--fa-animation-direction:reverse}.fa-pulse,.fa-spin-pulse{animation-name:fa-spin;animation-direction:var(--fa-animation-direction,normal);animation-duration:var(--fa-animation-duration,1s);animation-iteration-count:var(--fa-animation-iteration-count,infinite);animation-timing-function:var(--fa-animation-timing,steps(8))}@media (prefers-reduced-motion:reduce){.fa-beat,.fa-bounce,.fa-fade,.fa-beat-fade,.fa-flip,.fa-pulse,.fa-shake,.fa-spin,.fa-spin-pulse{animation:none!important;transition:none!important}}@keyframes fa-beat{0%,90%{transform:scale(1)}45%{transform:scale(var(--fa-beat-scale,1.25))}}@keyframes fa-bounce{0%{transform:scale(1)translateY(0)}10%{transform:scale(var(--fa-bounce-start-scale-x,1.1),var(--fa-bounce-start-scale-y,.9))translateY(0)}30%{transform:scale(var(--fa-bounce-jump-scale-x,.9),var(--fa-bounce-jump-scale-y,1.1))translateY(var(--fa-bounce-height,-.5em))}50%{transform:scale(var(--fa-bounce-land-scale-x,1.05),var(--fa-bounce-land-scale-y,.95))translateY(0)}57%{transform:scale(1,1)translateY(var(--fa-bounce-rebound,-.125em))}64%{transform:scale(1)translateY(0)}to{transform:scale(1)translateY(0)}}@keyframes fa-fade{50%{opacity:var(--fa-fade-opacity,.4)}}@keyframes fa-beat-fade{0%,to{opacity:var(--fa-beat-fade-opacity,.4);transform:scale(1)}50%{opacity:1;transform:scale(var(--fa-beat-fade-scale,1.125))}}@keyframes fa-flip{50%{transform:rotate3d(var(--fa-flip-x,0),var(--fa-flip-y,1),var(--fa-flip-z,0),var(--fa-flip-angle,-180deg))}}@keyframes fa-shake{0%{transform:rotate(-15deg)}4%{transform:rotate(15deg)}8%,24%{transform:rotate(-18deg)}12%,28%{transform:rotate(18deg)}16%{transform:rotate(-22deg)}20%{transform:rotate(22deg)}32%{transform:rotate(-12deg)}36%{transform:rotate(12deg)}40%,to{transform:rotate(0)}}@keyframes fa-spin{0%{transform:rotate(0)}to{transform:rotate(360deg)}}.fa-rotate-90{transform:rotate(90deg)}.fa-rotate-180{transform:rotate(180deg)}.fa-rotate-270{transform:rotate(270deg)}.fa-flip-horizontal{transform:scaleX(-1)}.fa-flip-vertical{transform:scaleY(-1)}.fa-flip-both,.fa-flip-horizontal.fa-flip-vertical{transform:scale(-1)}.fa-rotate-by{transform:rotate(var(--fa-rotate-angle,0))}.fa-stack{display:inline-block;height:2em;line-height:2em;position:relative;vertical-align:middle;width:2.5em}.fa-stack-1x,.fa-stack-2x{--fa-width:100%;inset:0;position:absolute;text-align:center;width:var(--fa-width);z-index:var(--fa-stack-z-index,auto)}.fa-stack-1x{line-height:inherit}.fa-stack-2x{font-size:2em}.fa-inverse{color:var(--fa-inverse,#fff)}.fa-add{--fa:"+"}.fa-adjust{--fa:""}.fa-airplay{--fa:""}.fa-alarm-clock{--fa:""}.fa-anchor{--fa:""}.fa-angle-down{--fa:""}.fa-angle-left{--fa:""}.fa-angle-right{--fa:""}.fa-angle-up{--fa:""}.fa-aperture{--fa:""}.fa-archive{--fa:""}.fa-arrow-circle-down{--fa:""}.fa-arrow-circle-left{--fa:""}.fa-arrow-circle-right{--fa:""}.fa-arrow-circle-up{--fa:""}.fa-arrow-down{--fa:""}.fa-arrow-down-to-bracket{--fa:""}.fa-arrow-down-to-line{--fa:""}.fa-arrow-down-wide-short{--fa:""}.fa-arrow-from-bottom{--fa:""}.fa-arrow-from-left{--fa:""}.fa-arrow-left{--fa:""}.fa-arrow-left-rotate{--fa:""}.fa-arrow-pointer{--fa:""}.fa-arrow-right{--fa:""}.fa-arrow-right-arrow-left{--fa:""}.fa-arrow-right-from-bracket{--fa:""}.fa-arrow-right-from-line{--fa:""}.fa-arrow-right-rotate{--fa:""}.fa-arrow-right-to-bracket{--fa:""}.fa-arrow-right-to-line{--fa:""}.fa-arrow-rotate-back{--fa:""}.fa-arrow-rotate-backward{--fa:""}.fa-arrow-rotate-forward{--fa:""}.fa-arrow-rotate-left{--fa:""}.fa-arrow-rotate-left-10{--fa:""}.fa-arrow-rotate-right{--fa:""}.fa-arrow-rotate-right-10{--fa:""}.fa-arrow-to-bottom{--fa:""}.fa-arrow-to-right{--fa:""}.fa-arrow-up{--fa:""}.fa-arrow-up-arrow-down{--fa:""}.fa-arrow-up-from-bracket{--fa:""}.fa-arrow-up-from-line{--fa:""}.fa-arrow-up-right-from-square{--fa:""}.fa-arrow-up-wide-short{--fa:""}.fa-arrows-rotate{--fa:""}.fa-at{--fa:"@"}.fa-automobile{--fa:""}.fa-backward{--fa:""}.fa-backward-step{--fa:""}.fa-bag-shopping{--fa:""}.fa-bars{--fa:""}.fa-battery{--fa:""}.fa-battery-0{--fa:""}.fa-battery-2{--fa:""}.fa-battery-3{--fa:""}.fa-battery-4{--fa:""}.fa-battery-5{--fa:""}.fa-battery-bolt{--fa:""}.fa-battery-empty{--fa:""}.fa-battery-full{--fa:""}.fa-battery-half{--fa:""}.fa-battery-quarter{--fa:""}.fa-battery-slash{--fa:""}.fa-battery-three-quarters{--fa:""}.fa-bed{--fa:""}.fa-bed-empty{--fa:""}.fa-bell{--fa:""}.fa-bell-ring{--fa:""}.fa-bell-slash{--fa:""}.fa-biking{--fa:""}.fa-birthday-cake{--fa:""}.fa-block-quote{--fa:""}.fa-bold{--fa:""}.fa-bolt{--fa:""}.fa-bolt-slash{--fa:""}.fa-bomb{--fa:""}.fa-book{--fa:""}.fa-book-open{--fa:""}.fa-bookmark{--fa:""}.fa-box{--fa:""}.fa-box-archive{--fa:""}.fa-briefcase{--fa:""}.fa-bug{--fa:""}.fa-bug-slash{--fa:""}.fa-building{--fa:""}.fa-buildings{--fa:""}.fa-burger{--fa:""}.fa-bus{--fa:""}.fa-cake{--fa:""}.fa-cake-candles{--fa:""}.fa-calendar{--fa:""}.fa-calendar-check{--fa:""}.fa-calendar-plus{--fa:""}.fa-camera{--fa:""}.fa-camera-alt{--fa:""}.fa-camera-slash{--fa:""}.fa-car{--fa:""}.fa-cart-shopping{--fa:""}.fa-chain{--fa:""}.fa-chart-pie{--fa:""}.fa-chart-simple{--fa:""}.fa-check{--fa:""}.fa-check-circle{--fa:""}.fa-circle{--fa:""}.fa-circle-arrow-down{--fa:""}.fa-circle-arrow-left{--fa:""}.fa-circle-arrow-right{--fa:""}.fa-circle-arrow-up{--fa:""}.fa-circle-check{--fa:""}.fa-circle-dollar{--fa:""}.fa-circle-exclamation{--fa:""}.fa-circle-half-stroke{--fa:""}.fa-circle-info{--fa:""}.fa-circle-plus{--fa:""}.fa-circle-question{--fa:""}.fa-circle-user{--fa:""}.fa-clipboard{--fa:""}.fa-clipboard-check{--fa:""}.fa-clock{--fa:""}.fa-clock-four{--fa:""}.fa-close{--fa:""}.fa-closed-captioning{--fa:""}.fa-cloud{--fa:""}.fa-cloud-arrow-down{--fa:""}.fa-cloud-arrow-up{--fa:""}.fa-cloud-bolt{--fa:""}.fa-cloud-download{--fa:""}.fa-cloud-download-alt{--fa:""}.fa-cloud-drizzle{--fa:""}.fa-cloud-moon{--fa:""}.fa-cloud-showers{--fa:""}.fa-cloud-slash{--fa:""}.fa-cloud-snow{--fa:""}.fa-cloud-sun{--fa:""}.fa-cloud-upload{--fa:""}.fa-cloud-upload-alt{--fa:""}.fa-code{--fa:""}.fa-coffee{--fa:""}.fa-cog{--fa:""}.fa-command{--fa:""}.fa-comment{--fa:""}.fa-comment-slash{--fa:""}.fa-comments{--fa:""}.fa-compact-disc{--fa:""}.fa-compass{--fa:""}.fa-compress{--fa:""}.fa-computer-classic{--fa:""}.fa-copy{--fa:""}.fa-credit-card{--fa:""}.fa-credit-card-alt{--fa:""}.fa-crown{--fa:""}.fa-cut{--fa:""}.fa-cutlery{--fa:""}.fa-dashboard{--fa:""}.fa-database{--fa:""}.fa-diamond{--fa:""}.fa-display{--fa:""}.fa-dollar{--fa:"$"}.fa-dollar-circle{--fa:""}.fa-dollar-sign{--fa:"$"}.fa-drivers-license{--fa:""}.fa-droplet{--fa:""}.fa-edit{--fa:""}.fa-ellipsis{--fa:""}.fa-ellipsis-h{--fa:""}.fa-envelope{--fa:""}.fa-envelope-open{--fa:""}.fa-equals{--fa:"="}.fa-exchange{--fa:""}.fa-exclamation-circle{--fa:""}.fa-expand{--fa:""}.fa-external-link{--fa:""}.fa-eye{--fa:""}.fa-eye-slash{--fa:""}.fa-face-frown{--fa:""}.fa-face-laugh{--fa:""}.fa-face-meh{--fa:""}.fa-face-smile{--fa:""}.fa-feather{--fa:""}.fa-file{--fa:""}.fa-file-check{--fa:""}.fa-file-minus{--fa:""}.fa-file-plus{--fa:""}.fa-files{--fa:""}.fa-fill{--fa:""}.fa-film{--fa:""}.fa-film-alt{--fa:""}.fa-film-simple{--fa:""}.fa-filter{--fa:""}.fa-fire{--fa:""}.fa-fish{--fa:""}.fa-flag{--fa:""}.fa-floppy-disk{--fa:""}.fa-flower{--fa:""}.fa-folder{--fa:""}.fa-folder-blank{--fa:""}.fa-folder-check{--fa:""}.fa-folder-minus{--fa:""}.fa-folder-plus{--fa:""}.fa-folders{--fa:""}.fa-font{--fa:""}.fa-font-awesome{--fa:""}.fa-font-awesome-flag{--fa:""}.fa-font-awesome-logo-full{--fa:""}.fa-font-case{--fa:""}.fa-forward{--fa:""}.fa-forward-step{--fa:""}.fa-frame{--fa:""}.fa-frown{--fa:""}.fa-gamepad-alt{--fa:""}.fa-gamepad-modern{--fa:""}.fa-gauge{--fa:""}.fa-gauge-high{--fa:""}.fa-gauge-low{--fa:""}.fa-gauge-med{--fa:""}.fa-gear{--fa:""}.fa-ghost{--fa:""}.fa-gift{--fa:""}.fa-glass-martini-alt{--fa:""}.fa-globe{--fa:""}.fa-grid-2{--fa:""}.fa-grid-round{--fa:""}.fa-hamburger{--fa:""}.fa-hand{--fa:""}.fa-hand-paper{--fa:""}.fa-hard-drive{--fa:""}.fa-hdd{--fa:""}.fa-headphones{--fa:""}.fa-headphones-alt{--fa:""}.fa-headphones-simple{--fa:""}.fa-heart{--fa:""}.fa-heart-half{--fa:""}.fa-heart-slash{--fa:""}.fa-home{--fa:""}.fa-home-alt{--fa:""}.fa-home-lg-alt{--fa:""}.fa-hourglass{--fa:""}.fa-hourglass-empty{--fa:""}.fa-house{--fa:""}.fa-id-card{--fa:""}.fa-image{--fa:""}.fa-images{--fa:""}.fa-inbox{--fa:""}.fa-info-circle{--fa:""}.fa-italic{--fa:""}.fa-joystick{--fa:""}.fa-key{--fa:""}.fa-keyboard{--fa:""}.fa-landmark{--fa:""}.fa-landmark-alt{--fa:""}.fa-landmark-dome{--fa:""}.fa-language{--fa:""}.fa-laptop{--fa:""}.fa-laugh{--fa:""}.fa-layer-group{--fa:""}.fa-leaf{--fa:""}.fa-life-ring{--fa:""}.fa-lightbulb{--fa:""}.fa-lightbulb-slash{--fa:""}.fa-link{--fa:""}.fa-link-simple{--fa:""}.fa-list-1-2{--fa:""}.fa-list-dots{--fa:""}.fa-list-music{--fa:""}.fa-list-numeric{--fa:""}.fa-list-ol{--fa:""}.fa-list-ul{--fa:""}.fa-location-arrow{--fa:""}.fa-location-dot{--fa:""}.fa-lock{--fa:""}.fa-lock-open{--fa:""}.fa-magic{--fa:""}.fa-magic-wand-sparkles{--fa:""}.fa-magnifying-glass{--fa:""}.fa-magnifying-glass-minus{--fa:""}.fa-magnifying-glass-plus{--fa:""}.fa-map{--fa:""}.fa-map-marker-alt{--fa:""}.fa-martini-glass{--fa:""}.fa-meh{--fa:""}.fa-microchip{--fa:""}.fa-microphone{--fa:""}.fa-microphone-slash{--fa:""}.fa-minus{--fa:""}.fa-mobile{--fa:""}.fa-mobile-android{--fa:""}.fa-mobile-phone{--fa:""}.fa-money-bill{--fa:""}.fa-money-bill-wave{--fa:""}.fa-moon{--fa:""}.fa-moon-star{--fa:""}.fa-mouse-pointer{--fa:""}.fa-mug-hot{--fa:""}.fa-mug-saucer{--fa:""}.fa-multiply{--fa:""}.fa-music{--fa:""}.fa-navicon{--fa:""}.fa-newspaper{--fa:""}.fa-notdef{--fa:""}.fa-paint-brush{--fa:""}.fa-paintbrush{--fa:""}.fa-paintbrush-slash{--fa:""}.fa-palette{--fa:""}.fa-paper-plane{--fa:""}.fa-paperclip{--fa:""}.fa-pause{--fa:""}.fa-paw{--fa:""}.fa-pen{--fa:""}.fa-pen-line{--fa:""}.fa-pen-nib{--fa:""}.fa-pen-slash{--fa:""}.fa-pen-to-square{--fa:""}.fa-pencil{--fa:""}.fa-pencil-alt{--fa:""}.fa-pencil-line{--fa:""}.fa-percent{--fa:"%"}.fa-percentage{--fa:"%"}.fa-person-biking{--fa:""}.fa-phone{--fa:""}.fa-phone-arrow-down{--fa:""}.fa-phone-arrow-down-left{--fa:""}.fa-phone-arrow-right{--fa:""}.fa-phone-arrow-up{--fa:""}.fa-phone-arrow-up-right{--fa:""}.fa-phone-hangup{--fa:""}.fa-phone-incoming{--fa:""}.fa-phone-outgoing{--fa:""}.fa-phone-plus{--fa:""}.fa-phone-slash{--fa:""}.fa-phone-volume{--fa:""}.fa-phone-xmark{--fa:""}.fa-pie-chart{--fa:""}.fa-plane{--fa:""}.fa-plane-up{--fa:""}.fa-play{--fa:""}.fa-play-pause{--fa:""}.fa-plus{--fa:"+"}.fa-plus-circle{--fa:""}.fa-poop{--fa:""}.fa-print{--fa:""}.fa-question{--fa:"?"}.fa-question-circle{--fa:""}.fa-quotes{--fa:""}.fa-radio{--fa:""}.fa-rectangle{--fa:""}.fa-rectangle-code{--fa:""}.fa-rectangle-landscape{--fa:""}.fa-rectangle-portrait{--fa:""}.fa-rectangle-tall{--fa:""}.fa-rectangle-vertical{--fa:""}.fa-rectangle-wide{--fa:""}.fa-redo{--fa:""}.fa-refresh{--fa:""}.fa-remove{--fa:""}.fa-rocket-launch{--fa:""}.fa-save{--fa:""}.fa-scissors{--fa:""}.fa-screencast{--fa:""}.fa-search{--fa:""}.fa-search-minus{--fa:""}.fa-search-plus{--fa:""}.fa-server{--fa:""}.fa-share-alt{--fa:""}.fa-share-nodes{--fa:""}.fa-shield{--fa:""}.fa-shield-alt{--fa:""}.fa-shield-blank{--fa:""}.fa-shield-check{--fa:""}.fa-shield-halved{--fa:""}.fa-shield-slash{--fa:""}.fa-ship{--fa:""}.fa-shirt{--fa:""}.fa-shop{--fa:""}.fa-shopping-bag{--fa:""}.fa-shopping-cart{--fa:""}.fa-shredder{--fa:""}.fa-sign-in{--fa:""}.fa-sign-out{--fa:""}.fa-signal{--fa:""}.fa-signal-1{--fa:""}.fa-signal-2{--fa:""}.fa-signal-3{--fa:""}.fa-signal-5{--fa:""}.fa-signal-fair{--fa:""}.fa-signal-good{--fa:""}.fa-signal-perfect{--fa:""}.fa-signal-slash{--fa:""}.fa-signal-weak{--fa:""}.fa-skull{--fa:""}.fa-skull-crossbones{--fa:""}.fa-sliders{--fa:""}.fa-sliders-h{--fa:""}.fa-smile{--fa:""}.fa-snowflake{--fa:""}.fa-sort{--fa:""}.fa-sort-amount-asc{--fa:""}.fa-sort-amount-down{--fa:""}.fa-sort-amount-up{--fa:""}.fa-sort-up-down{--fa:""}.fa-sparkles{--fa:""}.fa-speaker{--fa:""}.fa-square{--fa:""}.fa-star{--fa:""}.fa-star-half{--fa:""}.fa-step-backward{--fa:""}.fa-step-forward{--fa:""}.fa-stop{--fa:""}.fa-stopwatch{--fa:""}.fa-store{--fa:""}.fa-store-alt{--fa:""}.fa-strikethrough{--fa:""}.fa-subtract{--fa:""}.fa-subway{--fa:""}.fa-suitcase{--fa:""}.fa-sun{--fa:""}.fa-sync{--fa:""}.fa-t-shirt{--fa:""}.fa-tachometer-alt{--fa:""}.fa-tachometer-alt-average{--fa:""}.fa-tachometer-alt-fast{--fa:""}.fa-tachometer-alt-slow{--fa:""}.fa-tag{--fa:""}.fa-television{--fa:""}.fa-text{--fa:""}.fa-thumb-tack{--fa:""}.fa-thumbs-down{--fa:""}.fa-thumbs-up{--fa:""}.fa-thumbtack{--fa:""}.fa-thunderstorm{--fa:""}.fa-ticket{--fa:""}.fa-times{--fa:""}.fa-tint{--fa:""}.fa-train{--fa:""}.fa-train-subway{--fa:""}.fa-trash{--fa:""}.fa-trash-slash{--fa:""}.fa-tree{--fa:""}.fa-triangle{--fa:""}.fa-trophy{--fa:""}.fa-truck{--fa:""}.fa-tshirt{--fa:""}.fa-tv{--fa:""}.fa-tv-alt{--fa:""}.fa-tv-retro{--fa:""}.fa-umbrella{--fa:""}.fa-underline{--fa:""}.fa-undo{--fa:""}.fa-universal-access{--fa:""}.fa-unlock{--fa:""}.fa-unsorted{--fa:""}.fa-usd{--fa:"$"}.fa-usd-circle{--fa:""}.fa-user{--fa:""}.fa-user-alt{--fa:""}.fa-user-check{--fa:""}.fa-user-circle{--fa:""}.fa-user-large{--fa:""}.fa-user-minus{--fa:""}.fa-user-plus{--fa:""}.fa-user-times{--fa:""}.fa-user-xmark{--fa:""}.fa-users{--fa:""}.fa-utensils{--fa:""}.fa-video{--fa:""}.fa-video-camera{--fa:""}.fa-video-slash{--fa:""}.fa-voicemail{--fa:""}.fa-volume{--fa:""}.fa-volume-control-phone{--fa:""}.fa-volume-down{--fa:""}.fa-volume-low{--fa:""}.fa-volume-medium{--fa:""}.fa-volume-mute{--fa:""}.fa-volume-off{--fa:""}.fa-volume-slash{--fa:""}.fa-volume-times{--fa:""}.fa-volume-xmark{--fa:""}.fa-wand-magic{--fa:""}.fa-wand-magic-sparkles{--fa:""}.fa-water{--fa:""}.fa-wheelchair{--fa:""}.fa-wheelchair-alt{--fa:""}.fa-wheelchair-move{--fa:""}.fa-wifi{--fa:""}.fa-wifi-3{--fa:""}.fa-wifi-slash{--fa:""}.fa-wifi-strong{--fa:""}.fa-wind{--fa:""}.fa-wrench{--fa:""}.fa-xmark{--fa:""}.fa-zap{--fa:""}:root,:host{--fa-family-utility-fill:"Font Awesome 7 Utility Fill";--fa-font-utility-fill-semibold:normal 600 1em/1 var(--fa-family-utility-fill);--fa-style-family-utility-fill:var(--fa-family-utility-fill)}@font-face{font-family:"Font Awesome 7 Utility Fill";font-style:normal;font-weight:600;font-display:block;src:url(https://ka-p.fontawesome.com/releases/v7.1.0/webfonts/pro-fa-utility-fill-semibold-600-3.woff2)}@font-face{font-family:"Font Awesome 7 Utility Fill";font-style:normal;font-weight:600;font-display:block;src:url(https://ka-p.fontawesome.com/releases/v7.1.0/webfonts/pro-fa-utility-fill-semibold-600-2.woff2);unicode-range:U+2039-2600,U+2639,U+2700-270B,U+2744-F3ED,U+F401-F599,U+F8E5,U+1F374-1F3A8,U+1F44E-1F455,U+1F480-1F56E,U+1F588-1F698,U+1F6CC,U+1F6D2-1FAB6}@font-face{font-family:"Font Awesome 7 Utility Fill";font-style:normal;font-weight:600;font-display:block;src:url(https://ka-p.fontawesome.com/releases/v7.1.0/webfonts/pro-fa-utility-fill-semibold-600-1.woff2);unicode-range:U+3D-D7,U+21BB,U+2328,U+23FE,U+25B2-25D0,U+2615,U+2666-2699,U+270F,U+2715-2716,U+273F,U+274C-F059,U+F05D,U+F087,U+F0F7,U+F11C-F121,U+F130-F13D,U+F145-F15B,U+F164,U+F186,U+F188,U+F1AB-F1AD,U+F1BB-F1C0,U+F1D8-F1D9,U+F1EA-F1EB,U+F1F8-F1FA,U+F20A-F234,U+F238,U+F29C-F2A0,U+F2DB,U+F2EC,U+F2F7,U+F2FC-F303,U+F316,U+F328,U+F3C5-F3CE,U+F4E2,U+F503,U+F521-F52C,U+F54E,U+F578,U+F5FD,U+F673,U+F695-F6A8,U+F72E,U+F773-F7FF,U+F866,U+F893-F8BC,U+F8D7-F8DF,U+1F319,U+1F332-1F33C,U+1F39F,U+1F3AE,U+1F3E2-1F44D,U+1F451,U+1F4A7,U+1F4C4-1F4CB,U+1F4F0-1F4F1,U+1F4FB,U+1F508-1F509,U+1F50D,U+1F5CB-1F5D9,U+1F680-1F686,U+1F6A2,U+1F6E1,U+1F9ED}@font-face{font-family:"Font Awesome 7 Utility Fill";font-style:normal;font-weight:600;font-display:block;src:url(https://ka-p.fontawesome.com/releases/v7.1.0/webfonts/pro-fa-utility-fill-semibold-600-0.woff2);unicode-range:U+24-2B,U+3F,U+2013,U+2190-2193,U+2212-2303,U+2399-23EA,U+23F8-23F9,U+25A0,U+25B6-25CF,U+25FB-25FC,U+2601,U+2665,U+26A1-26AB,U+26DF,U+2709,U+2713-2714,U+2753-2B50,U+F001,U+F003-F00C,U+F012,U+F015,U+F017-F01C,U+F023-F025,U+F02D-F031,U+F03D-F03E,U+F04A-F04E,U+F060-F065,U+F067-F068,U+F06B-F06E,U+F072-F075,U+F07B-F086,U+F08A,U+F091-F09D,U+F0A2,U+F0AC-F0C2,U+F0C5-F0C6,U+F0C8-F0C9,U+F0CC,U+F0D1-F0E0,U+F0E5-F0E7,U+F0EB,U+F0F3,U+F106,U+F109-F114,U+F11D,U+F128,U+F155,U+F1DB,U+F283,U+F295,U+F2C0,U+F332,U+F3A0,U+F406,U+F541,U+F58F,U+F80A-F80C,U+1F310,U+1F381,U+1F39E,U+1F3A7,U+1F3B5-1F3C6,U+1F3E0,U+1F3F4,U+1F441,U+1F464,U+1F499-1F4A1,U+1F4B2-1F4BC,U+1F4C1,U+1F4CE-1F4D4,U+1F4DE,U+1F4F6,U+1F511-1F514,U+1F516-1F553,U+1F57B-1F582,U+1F5A4-1F5A8,U+1F5B6,U+1F5BF,U+1F5E9-1F5EA,U+1F69A,U+1F7E0-1F90E,U+1F9E1}.faufsb{--fa-family:var(--fa-family-utility-fill);--fa-style:600}.fa-utility-fill{--fa-family:var(--fa-family-utility-fill)}.fa-semibold{--fa-style:600}:root,:host{--fa-family-utility:"Font Awesome 7 Utility";--fa-font-utility-semibold:normal 600 1em/1 var(--fa-family-utility);--fa-style-family-utility:var(--fa-family-utility)}@font-face{font-family:"Font Awesome 7 Utility";font-style:normal;font-weight:600;font-display:block;src:url(https://ka-p.fontawesome.com/releases/v7.1.0/webfonts/pro-fa-utility-semibold-600-3.woff2)}@font-face{font-family:"Font Awesome 7 Utility";font-style:normal;font-weight:600;font-display:block;src:url(https://ka-p.fontawesome.com/releases/v7.1.0/webfonts/pro-fa-utility-semibold-600-2.woff2);unicode-range:U+2039-2600,U+2639,U+2700-270B,U+2744-F3ED,U+F401-F599,U+F8E5,U+1F374-1F3A8,U+1F44E-1F455,U+1F480-1F56E,U+1F588-1F698,U+1F6CC,U+1F6D2-1FAB6}@font-face{font-family:"Font Awesome 7 Utility";font-style:normal;font-weight:600;font-display:block;src:url(https://ka-p.fontawesome.com/releases/v7.1.0/webfonts/pro-fa-utility-semibold-600-1.woff2);unicode-range:U+3D-D7,U+21BB,U+2328,U+23FE,U+25B2-25D0,U+2615,U+2666-2699,U+270F,U+2715-2716,U+273F,U+274C-F059,U+F05D,U+F087,U+F0F7,U+F11C-F121,U+F130-F13D,U+F145-F15B,U+F164,U+F186,U+F188,U+F1AB-F1AD,U+F1BB-F1C0,U+F1D8-F1D9,U+F1EA-F1EB,U+F1F8-F1FA,U+F20A-F234,U+F238,U+F29C-F2A0,U+F2DB,U+F2EC,U+F2F7,U+F2FC-F303,U+F316,U+F328,U+F3C5-F3CE,U+F4E2,U+F503,U+F521-F52C,U+F54E,U+F578,U+F5FD,U+F673,U+F695-F6A8,U+F72E,U+F773-F7FF,U+F866,U+F893-F8BC,U+F8D7-F8DF,U+1F319,U+1F332-1F33C,U+1F39F,U+1F3AE,U+1F3E2-1F44D,U+1F451,U+1F4A7,U+1F4C4-1F4CB,U+1F4F0-1F4F1,U+1F4FB,U+1F508-1F509,U+1F50D,U+1F5CB-1F5D9,U+1F680-1F686,U+1F6A2,U+1F6E1,U+1F9ED}@font-face{font-family:"Font Awesome 7 Utility";font-style:normal;font-weight:600;font-display:block;src:url(https://ka-p.fontawesome.com/releases/v7.1.0/webfonts/pro-fa-utility-semibold-600-0.woff2);unicode-range:U+24-2B,U+3F,U+2013,U+2190-2193,U+2212-2303,U+2399-23EA,U+23F8-23F9,U+25A0,U+25B6-25CF,U+25FB-25FC,U+2601,U+2665,U+26A1-26AB,U+26DF,U+2709,U+2713-2714,U+2753-2B50,U+F001,U+F003-F00C,U+F012,U+F015,U+F017-F01C,U+F023-F025,U+F02D-F031,U+F03D-F03E,U+F04A-F04E,U+F060-F065,U+F067-F068,U+F06B-F06E,U+F072-F075,U+F07B-F086,U+F08A,U+F091-F09D,U+F0A2,U+F0AC-F0C2,U+F0C5-F0C6,U+F0C8-F0C9,U+F0CC,U+F0D1-F0E0,U+F0E5-F0E7,U+F0EB,U+F0F3,U+F106,U+F109-F114,U+F11D,U+F128,U+F155,U+F1DB,U+F283,U+F295,U+F2C0,U+F332,U+F3A0,U+F406,U+F541,U+F58F,U+F80A-F80C,U+1F310,U+1F381,U+1F39E,U+1F3A7,U+1F3B5-1F3C6,U+1F3E0,U+1F3F4,U+1F441,U+1F464,U+1F499-1F4A1,U+1F4B2-1F4BC,U+1F4C1,U+1F4CE-1F4D4,U+1F4DE,U+1F4F6,U+1F511-1F514,U+1F516-1F553,U+1F57B-1F582,U+1F5A4-1F5A8,U+1F5B6,U+1F5BF,U+1F5E9-1F5EA,U+1F69A,U+1F7E0-1F90E,U+1F9E1}.fausb{--fa-family:var(--fa-family-utility);--fa-style:600}.fa-utility{--fa-family:var(--fa-family-utility)}.fa-semibold{--fa-style:600}</style><meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"><meta name="title" content="Home"><meta name="author" content="Marie-Ellen Schmidt"><meta name="description" content="Home page"><meta property="og:locale" content="en_AU"><meta property="og:url" content="https://heritagestudio.co/"><meta property="og:type" content="website"><meta property="og:title" content="Home"><meta property="og:description" content="Home page"><meta property="og:image" content="https://rainwilds.github.io/img/logo/heritage-studio-logo-full-light.svg"><meta property="og:site_name" content="Heritage Studio"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:domain" content="heritagestudio.co"><meta name="twitter:site" content="@behive"><meta name="twitter:url" content="https://heritagestudio.co/"><meta name="twitter:title" content="Home"><meta name="twitter:description" content="Home page"><meta name="twitter:image" content="https://rainwilds.github.io/img/logo.jpg"><link rel="canonical" href="https://heritagestudio.co/"><link rel="apple-touch-icon" href="./img/icons/apple-touch-icon.png" sizes="180x180"><link rel="icon" href="./img/icons/favicon-32x32.png" sizes="32x32" type="image/png"><link rel="icon" href="./img/icons/favicon-16x16.png" sizes="16x16" type="image/png"><link rel="icon" href="./img/icons/favicon.ico" type="image/x-icon"><meta name="theme-color" content="#b839f7" media="(prefers-color-scheme: light)"><meta name="theme-color" content="#34251d" media="(prefers-color-scheme: dark)"><script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Behive",
-  "url": "https://rainwilds.github.io",
-  "telephone": "+61-3-9876-5432",
-  "address": {
-    "@type": "PostalAddress",
-    "streetAddress": "456 Creative Lane",
-    "addressLocality": "Melbourne",
-    "addressRegion": "VIC",
-    "postalCode": "3000",
-    "addressCountry": "AU"
-  },
-  "openingHours": [
-    "Mo-Fr 09:00-18:00"
-  ],
-  "geo": {
-    "@type": "GeoCoordinates",
-    "latitude": -37.8136,
-    "longitude": 144.9631
-  },
-  "image": "https://rainwilds.github.io/img/logo.jpg",
-  "logo": "https://rainwilds.github.io/img/logo.jpg",
-  "sameAs": [
-    "https://www.facebook.com/behive",
-    "https://www.instagram.com/behive"
-  ]
-}</script><script id="snipcart" src="https://cdn.snipcart.com/themes/v3.7.3/default/snipcart.3.7.3.js" data-api-key="NTMzMTQxN2UtNjQ3ZS00ZWNjLWEyYmEtOTNiNGMwNzYyYWNlNjM4ODA0NjY5NzE2NjExMzg5" data-config-modal-style="side" data-config-load-strategy="on-user-interaction" data-templates-url="./plugins/snipcart.html"></script></head><body class="theme-light">
+        .slide:nth-child(odd) {
+            background-color: #4a90e2;
+        }
 
+        .slide:nth-child(even) {
+            background-color: #50e3c2;
+        }
+    </style>
+</head>
+<body>
+    <div class="carousel">
+        <div class="slides">
+            <div class="slide">Slide 1</div>
+            <div class="slide">Slide 2</div>
+            <div class="slide">Slide 3</div>
+            <div class="slide">Slide 4</div>
+        </div>
+    </div>
 
+    <script>
+        const carousel = document.querySelector('.carousel');
+        const slides = carousel.querySelector('.slides');
 
+        let isDragging = false;
+        let startPos = 0;
+        let currentTranslate = 0;
+        let prevTranslate = 0;
+        let animationID;
+        let currentIndex = 0;
 
+        // Prevent context menu on long touch
+        window.oncontextmenu = function(event) {
+            if (event.target.closest('.slides')) {
+                event.preventDefault();
+                event.stopPropagation();
+                return false;
+            }
+        };
 
-  <main>
+        slides.addEventListener('pointerdown', pointerDown);
+        slides.addEventListener('pointerup', pointerUp);
+        slides.addEventListener('pointercancel', pointerUp);
+        slides.addEventListener('pointerleave', pointerUp);
+        slides.addEventListener('pointermove', pointerMove);
 
-    <section>
-      <div>
+        function getPositionX(event) {
+            return event.clientX;
+        }
 
-        <h1>In quisquam galisum aut inventore distinctio et tenetur architecto? </h1>
-        <p>Lorem ipsum dolor sit amet. Sit modi exercitationem qui omnis exercitationem <em>Et dolor</em>. Et rerum
-          commodiSed ratione sit omnis eaque ut perspiciatis eius. In laborum obcaecatiEum consequatur et quidem dolor
-          et magnam labore in laudantium earum aut perspiciatis perferendis rem beatae velit? Hic labore excepturiQui
-          dolorum sit eius omnis in facilis aliquid et voluptatem dolores ut sunt officiis. Aut enim saepe nam quia
-          necessitatibus <a href="https://www.loremipzum.com" target="_blank">In corrupti aut nihil rerum ut iusto
-            odio</a>. Et rerum officiisqui sequi 33 recusandae perspiciatis? Aut rerum recusandae et omnis dolore
-          <strong>Aut accusantium aut minima voluptas</strong> eum praesentium voluptas sit rerum voluptatem non
-          necessitatibus dolore. </p>
-        <h2>Aut optio obcaecati qui quia libero et cupiditate mollitia. </h2>
-        <p>Aut reiciendis dolorEum minus in quis ipsum ut internos deserunt et dignissimos consequuntur ea consequatur
-          reprehenderit. Quo tempore voluptatem a nihil assumendaEst officia aut consectetur tempore ut dicta quibusdam?
-          Qui quia consequuntur 33 dolor quas <a href="https://www.loremipzum.com" target="_blank">Id voluptas ut minus
-            magni</a> cum eligendi tempora ut consequatur blanditiis vel veritatis veniam. Et modi vero <em>Et
-            consectetur et atque velit</em>. Et doloremque QuisEst fuga quo error voluptates est velit quasi. </p>
+        function pointerDown(event) {
+            if (event.pointerType === 'touch' || event.pointerType === 'mouse') {
+                isDragging = true;
+                startPos = getPositionX(event);
+                animationID = requestAnimationFrame(animation);
+                slides.style.transition = 'none';
+                event.target.setPointerCapture(event.pointerId);
+            }
+        }
 
+        function pointerMove(event) {
+            if (isDragging) {
+                const currentPosition = getPositionX(event);
+                currentTranslate = prevTranslate + currentPosition - startPos;
+            }
+        }
 
-      </div>
-    </section>
+        function pointerUp(event) {
+            cancelAnimationFrame(animationID);
+            isDragging = false;
+            const movedBy = currentTranslate - prevTranslate;
 
-    <section>
-      <div>
+            // Threshold for swipe to next/prev (adjust as needed)
+            if (movedBy < -100 && currentIndex < slides.children.length - 1) {
+                currentIndex += 1;
+            } else if (movedBy > 100 && currentIndex > 0) {
+                currentIndex -= 1;
+            }
 
-        <h1 class="secondary">In quisquam galisum aut inventore distinctio et tenetur architecto? </h1>
-        <p>Lorem ipsum dolor sit amet. Sit modi exercitationem qui omnis exercitationem <em>Et dolor</em>. Et rerum
-          commodiSed ratione sit omnis eaque ut perspiciatis eius. In laborum obcaecatiEum consequatur et quidem dolor
-          et magnam labore in laudantium earum aut perspiciatis perferendis rem beatae velit? Hic labore excepturiQui
-          dolorum sit eius omnis in facilis aliquid et voluptatem dolores ut sunt officiis. Aut enim saepe nam quia
-          necessitatibus <a href="https://www.loremipzum.com" target="_blank">In corrupti aut nihil rerum ut iusto
-            odio</a>. Et rerum officiisqui sequi 33 recusandae perspiciatis? Aut rerum recusandae et omnis dolore
-          <strong>Aut accusantium aut minima voluptas</strong> eum praesentium voluptas sit rerum voluptatem non
-          necessitatibus dolore. </p>
-        <h2 class="secondary">Aut optio obcaecati qui quia libero et cupiditate mollitia. </h2>
-        <p>Aut reiciendis dolorEum minus in quis ipsum ut internos deserunt et dignissimos consequuntur ea consequatur
-          reprehenderit. Quo tempore voluptatem a nihil assumendaEst officia aut consectetur tempore ut dicta quibusdam?
-          Qui quia consequuntur 33 dolor quas <a href="https://www.loremipzum.com" target="_blank">Id voluptas ut minus
-            magni</a> cum eligendi tempora ut consequatur blanditiis vel veritatis veniam. Et modi vero <em>Et
-            consectetur et atque velit</em>. Et doloremque QuisEst fuga quo error voluptates est velit quasi. </p>
+            setPositionByIndex();
+            slides.style.transition = 'transform 0.5s ease-out';
+            event.target.releasePointerCapture(event.pointerId);
+        }
 
+        function animation() {
+            setSliderPosition();
+            if (isDragging) requestAnimationFrame(animation);
+        }
 
-      </div>
-    </section>    
+        function setSliderPosition() {
+            slides.style.transform = `translate3d(${currentTranslate}px, 0, 0)`; // translate3d for hardware acceleration
+        }
 
-  </main>
-
-
-
-<protonpass-root-1374 data-protonpass-role="root" data-protonpass-theme="os"></protonpass-root-1374></body><div id="aiFabShadowRoot" style="opacity: 1;"></div></html>
+        function setPositionByIndex() {
+            currentTranslate = currentIndex * -carousel.clientWidth;
+            prevTranslate = currentTranslate;
+            setSliderPosition();
+        }
+    </script>
+</body>
+</html>
