@@ -23,6 +23,9 @@
 }
 
 :root {
+
+    --space-tiny: 0.8rem;
+
     --font-1-family: p22_cezanne_pro_regular-webfont,
         Arial,
         sans-serif;
