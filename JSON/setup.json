@@ -82,7 +82,12 @@
     ]
   },
   "font_awesome": {
-    "kit_url": "https://kit.fontawesome.com/85d1e578b1.js"
+    "base_path": "img/icons/fontawesome/",
+    "core": "js/fontawesome.min.js",
+    "packages": [
+      "thumbprint-light.min"
+    ],
+    "defer": true
   },
   "media": {
     "responsive_images": {
