@@ -27,30 +27,25 @@
       "locale": "en_AU",
       "site_name": "Heritage Studio",
       "type": "website",
-      "image": "https://rainwilds.github.io/img/logo/heritage-studio-logo-full-light.svg"
-    },
-    "x": {
-      "card": "summary_large_image",
-      "domain": "heritagestudio.co",
-      "site": "@behive"
+      "image": "https://heritagestudio.co/img/logos/logo-full-light-1.svg"
     },
     "include_e_commerce": true,
     "favicons": [
       {
         "rel": "icon",
         "type": "image/svg+xml",
-        "href": "./favicon.svg"
+        "href": "./img/icons/favicon.svg"
       },
       {
         "rel": "icon",
         "type": "image/png",
         "sizes": "192x192",
-        "href": "./favicon-192x192.png"
+        "href": "./img/icons/favicon-192x192.png"
       },
       {
         "rel": "apple-touch-icon",
         "sizes": "180x180",
-        "href": "./apple-touch-icon.png"
+        "href": "./img/icons/apple-touch-icon.png"
       }
     ],
     "snipcart": {
