@@ -94,24 +94,20 @@
   },
   "headerNavigation": [
     {
-      "text": "Home",
-      "href": "/"
+      "text": "Store",
+      "href": "/store.html"
     },
     {
       "text": "About",
-      "href": "/about"
+      "href": "/about.html"
     },
     {
-      "text": "Services",
-      "href": "/services"
+      "text": "Contact",
+      "href": "/contact.html"
     },
     {
       "text": "Blog",
-      "href": "/blog"
-    },    
-    {
-      "text": "Contact",
-      "href": "/contact"
+      "href": "/blog.html"
     }
   ],
   "footerNavigation": [
