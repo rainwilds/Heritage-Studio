@@ -49,7 +49,7 @@
       }
     ],
     "snipcart": {
-      "publicApiKey": "NzRjZGQzZTItZDE5OS00ZDhiLWFiZGQtY2I1OTZjMDY4MDQ1NjM4OTgzMzYwMTU2NjQ3NjM0",
+      "publicApiKey": "NTMzMTQxN2UtNjQ3ZS00ZWNjLWEyYmEtOTNiNGMwNzYyYWNlNjM4ODA0NjY5NzE2NjExMzg5",
       "loadStrategy": "on-user-interaction",
       "version": "",
       "templatesUrl": "./plugins/snipcart.html",
