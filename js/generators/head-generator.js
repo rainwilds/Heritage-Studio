@@ -404,37 +404,39 @@ async function updateHead(attributes, setup) {
 
   // ——— SNIPCART ———
   if (setup.general?.include_e_commerce && setup.general?.snipcart) {
-    const snip = setup.general.snipcart;
-
-    const settings = {
-      publicApiKey: snip.publicApiKey,
-      loadStrategy: snip.loadStrategy || 'on-user-interaction',
-      modalStyle: snip.modalStyle,
-      templatesUrl: snip.templatesUrl,
-      currency: snip.currency?.toLowerCase(),
-      ...(snip.version && snip.version.trim() ? { version: snip.version.trim() } : {}),
-      ...(snip.loadCSS === false ? { loadCSS: false } : {})
-    };
-
+    const snipcart = setup.general.snipcart;
     const script = document.createElement('script');
-    script.textContent = `
-    window.SnipcartSettings = ${JSON.stringify(settings)};
-    (function(){var c,d;(d=(c=window.SnipcartSettings).version)!=null||(c.version="3.0");var s,S;(S=(s=window.SnipcartSettings).timeoutDuration)!=null||(s.timeoutDuration=2750);var l,p;(p=(l=window.SnipcartSettings).domain)!=null||(l.domain="cdn.snipcart.com");var w,u;(u=(w=window.SnipcartSettings).protocol)!=null||(w.protocol="https");var m,g;(g=(m=window.SnipcartSettings).loadCSS)!=null||(m.loadCSS=!0);var y=window.SnipcartSettings.version.includes("v3.0.0-ci")||window.SnipcartSettings.version!="3.0"&&window.SnipcartSettings.version.localeCompare("3.4.0",void 0,{numeric:!0,sensitivity:"base"})===-1,f=["focus","mouseover","touchmove","scroll","keydown"];window.LoadSnipcart=o;document.readyState==="loading"?document.addEventListener("DOMContentLoaded",r):r();function r(){window.SnipcartSettings.loadStrategy?window.SnipcartSettings.loadStrategy==="on-user-interaction"&&(f.forEach(function(t){return document.addEventListener(t,o)}),setTimeout(o,window.SnipcartSettings.timeoutDuration)):o()}var a=!1;function o(){if(a)return;a=!0;let t=document.getElementsByTagName("head")[0],n=document.querySelector("#snipcart"),i=document.querySelector('src[src^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][src$="snipcart.js"]')),e=document.querySelector('link[href^="'.concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,'"][href$="snipcart.css"]'));n||(n=document.createElement("div"),n.id="snipcart",n.setAttribute("hidden","true"),document.body.appendChild(n)),h(n),i||(i=document.createElement("script"),i.src="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.js"),i.async=!0,t.appendChild(i)),!e&&window.SnipcartSettings.loadCSS&&(e=document.createElement("link"),e.rel="stylesheet",e.type="text/css",e.href="".concat(window.SnipcartSettings.protocol,"://").concat(window.SnipcartSettings.domain,"/themes/v").concat(window.SnipcartSettings.version,"/default/snipcart.css"),t.prepend(e)),f.forEach(function(v){return document.removeEventListener(v,o)})}function h(t){!y||(t.dataset.apiKey=window.SnipcartSettings.publicApiKey,window.SnipcartSettings.addProductBehavior&&(t.dataset.configAddProductBehavior=window.SnipcartSettings.addProductBehavior),window.SnipcartSettings.modalStyle&&(t.dataset.configModalStyle=window.SnipcartSettings.modalStyle),window.SnipcartSettings.currency&&(t.dataset.currency=window.SnipcartSettings.currency),window.SnipcartSettings.templatesUrl&&(t.dataset.templatesUrl=window.SnipcartSettings.templatesUrl))}})();
+    script.id = 'snipcart';
+    script.defer = true; // Required for deferred strategies
 
-    // ——— MOVE #snipcart INTO YOUR #snipcart-container ———
-    document.addEventListener('snipcart.ready', () => {
-      const container = document.getElementById('snipcart-container');
-      const snipcartDiv = document.getElementById('snipcart');
+    // Only pin version if explicitly set and non-empty
+    const version = snipcart.version && snipcart.version.trim() ? snipcart.version.trim() : '';
+    const baseUrl = version
+      ? `https://cdn.snipcart.com/themes/v${version}/default/snipcart.${version}.js`
+      : 'https://cdn.snipcart.com/themes/default/snipcart.js';
 
-      if (container && snipcartDiv && !container.contains(snipcartDiv)) {
-        container.appendChild(snipcartDiv);
-        snipcartDiv.removeAttribute('hidden');
-      }
-    });
-  `;
+    script.src = baseUrl;
+
+    // Core required attributes
+    script.setAttribute('data-api-key', snipcart.publicApiKey);
+
+    // Optional config attributes
+    if (snipcart.modalStyle) script.setAttribute('data-config-modal-style', snipcart.modalStyle);
+    if (snipcart.loadStrategy) script.setAttribute('data-config-load-strategy', snipcart.loadStrategy);
+    if (snipcart.templatesUrl) script.setAttribute('data-templates-url', snipcart.templatesUrl);
+    if (snipcart.currency) script.setAttribute('data-currency', snipcart.currency);
+    if (snipcart.loadCSS === false) {
+      script.setAttribute('data-config-load-css', 'false');
+    }
 
     deferredFrag.appendChild(script);
-    logger.log('Snipcart + #snipcart-container mover injected', settings);
+    logger.log('Snipcart initialized', {
+      version: version || 'latest',
+      currency: snipcart.currency,
+      loadStrategy: snipcart.loadStrategy,
+      modalStyle: snipcart.modalStyle,
+      loadCSS: snipcart.loadCSS
+    });
   }
 
   head.appendChild(criticalFrag);
